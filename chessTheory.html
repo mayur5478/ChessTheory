@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="description" content="">
+        <script src="jquery-1.11.2.min.js"></script>
+        <!--
+        <link href="header.css" rel="stylesheet">
+                <link href="footer.css" rel="stylesheet">-->
+        <style>
+        	#levelName,#chapterName,#subChapterName,#uploadedImage,#doc,        #textArea
+        	{
+        		float:right;
+        	}
+        	#form{
+        		width:350px;
+        		margin:0 auto;
+        	}
+        	#submit{
+        		width: 100%;
+        		height:40px;
+        	}
+        	#myImage{
+        		height:200px;
+        		width:100%;
+        	}
+        </style>
+        <title>New Web Project</title>
+    </head>
+    <body>
+    	<div id="form">
+	    	<label>LevelName</label>
+	 		<input type="text" id="levelName"><br><br>
+	 		<label>ChapterName</label>
+	 		<input type="text" id="chapterName"><br><br>
+	 		<label>SubChapterName</label>
+	 		<input type="text" id="subChapterName"><br><br>
+	 		<label>Theory</label>
+	 		<textArea id="textArea" rows="6" cols="21"></textArea><br><br><br><br><br><br>
+	 		<label>Select Image</label>
+	 		<input id="uploadedImage" type="file"><br><br>
+	 		<img src="#" id="myImage" alt="UploadedImage"><br><br>
+	 		<label>Select Doc</label>
+	 		<input id="doc" type="file"><br><br>
+	 		<input type="submit" id="submit" value="Save And Next">
+	 	</div>
+	 	<script>
+	 		$(function(){
+	 			$('#uploadedImage').change(function(){
+	 				if(this.files && this.files[0]){
+	 					var reader = new FileReader();
+	 					reader.onload = imageIsLoaded;
+	 					reader.readAsDataURL(this.files[0]);
+	 				}
+	 			});
+	 		});
+	 		
+	 		function imageIsLoaded(e){
+	 			$('#myImage').attr('src',e.target.result);
+	 		}
+	 		
+	 		$('#submit').click(function(){
+	 			var levelName = $('#levelName').val();
+	 			var chapterName = $('#chapterName').val();
+	 			var subChapterName = $('#subChapterName').val();
+	 			var uploadedImage = $('#uploadedImage').val();
+	 			var textTheory = $('#textArea').val();
+	 			var doc = $('#doc').val();
+	 			if(levelName && chapterName && subChapterName && uploadedImage ){
+	 				$.ajax({url:"addTheory.php",data:{level:levelName,chapter:chapterName,subChapter:subChapterName,image:JSON.stringify(uploadedImage),doc:JSON.stringify(doc),textTheory:textTheory}}).done(function(){
+	 					location.reload(true);	
+	 				});
+	 				
+	 			}
+	 		});
+	 	</script>
+ 	</body>
+</html>
